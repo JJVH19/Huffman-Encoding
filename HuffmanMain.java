@@ -1,5 +1,7 @@
 public class HuffmanMain {
-    static nodeCreator huffmanTreeNode;
+    static nodeCreator root;
+    static nodeCreator leftChild;
+    static nodeCreator rightChild;
 
     public static void main(String[] args){
 
@@ -9,12 +11,16 @@ public class HuffmanMain {
 
         //Simulation to add things to the tree
         int[] frequencySimulator = new int[]{17,28,37,49,59,68};
+        char asciiCharacter = 97;
         for(int i = 0; i < frequencySimulator.length; i+=2){
-            huffmanTreeNode = new nodeCreator(frequencySimulator[i],frequencySimulator[i+1]);
+            root = new nodeCreator((frequencySimulator[i]+frequencySimulator[i+1]));
+            root.setLeftChild((new nodeCreator.HuffmanNode(frequencySimulator[i],asciiCharacter++)));
+            root.setRightChild((new nodeCreator.HuffmanNode(frequencySimulator[i+1],asciiCharacter++)));
+
 
             //Simulation of pushing into priority queue
-            priorityQueueSimulation[priorityQueueSimulationIndex] = huffmanTreeNode.getRootNode();
-            huffmanTreeNode.print(priorityQueueSimulation[priorityQueueSimulationIndex]);
+            priorityQueueSimulation[priorityQueueSimulationIndex] = root.getRootNode();
+            root.print(priorityQueueSimulation[priorityQueueSimulationIndex]);
             priorityQueueSimulationIndex++;
         }
         //Priority queue insertion here
