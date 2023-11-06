@@ -1,7 +1,5 @@
 public class HuffmanMain {
     static nodeCreator root;
-    static nodeCreator leftChild;
-    static nodeCreator rightChild;
 
     public static void main(String[] args){
 
