@@ -1,0 +1,146 @@
+// This is based off the node creator Jose created.
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+public class HuffmanEncodeDecode {
+    private static class HuffmanNode implements Comparable<HuffmanNode> {
+        char character;
+        int frequency;
+        HuffmanNode left;
+        HuffmanNode right;
+
+        HuffmanNode(char character, int frequency) {
+            this.character = character;
+            this.frequency = frequency;
+        }
+
+        HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right) {
+            this.frequency = frequency;
+            this.left = left;
+            this.right = right;
+        }
+
+        @Override
+        public int compareTo(HuffmanNode other) {
+            return this.frequency - other.frequency;
+        }
+    }
+
+    public static HuffmanNode buildHuffmanTree(String input) {
+        // Calculate character frequencies and print them
+        Map<Character, Integer> frequencyMap = new HashMap<>();
+        for (char c : input.toCharArray()) {
+            frequencyMap.put(c, frequencyMap.getOrDefault(c, 0) + 1);
+        }
+        System.out.println("Character Frequencies:");
+        for (char character : frequencyMap.keySet()) {
+            System.out.println(character + ": " + frequencyMap.get(character));
+        }
+
+        // Create a priority queue of HuffmanNodes
+        PriorityQueue<HuffmanNode> priorityQueue = new PriorityQueue<>();
+        for (char character : frequencyMap.keySet()) {
+            priorityQueue.add(new HuffmanNode(character, frequencyMap.get(character)));
+        }
+
+        // Build the Huffman tree
+        while (priorityQueue.size() > 1) {
+            HuffmanNode left = priorityQueue.poll();
+            HuffmanNode right = priorityQueue.poll();
+            HuffmanNode combined = new HuffmanNode(left.frequency + right.frequency, left, right);
+            priorityQueue.add(combined);
+        }
+
+        HuffmanNode root = priorityQueue.poll(); // Root of the Huffman tree
+
+        // Print the Huffman tree structure
+        System.out.println("\nHuffman Tree Structure:");
+        printHuffmanTree(root, 0);
+        
+        return root;
+    }
+
+    private static void printHuffmanTree(HuffmanNode node, int depth) {
+        if (node == null) {
+            return;
+        }
+
+        // Print the current node's character and frequency
+        String indent = "  ".repeat(depth);
+        System.out.println(indent + node.character + ": " + node.frequency);
+
+        // Recursively print the left and right subtrees
+        printHuffmanTree(node.left, depth + 1);
+        printHuffmanTree(node.right, depth + 1);
+    }
+    
+    
+
+    public static Map<Character, String> buildHuffmanCodes(HuffmanNode root) {
+        Map<Character, String> huffmanCodes = new HashMap<>();
+        buildHuffmanCodesRecursive(root, "", huffmanCodes);
+        return huffmanCodes;
+    }
+    
+    
+
+    private static void buildHuffmanCodesRecursive(HuffmanNode node, String code, Map<Character, String> huffmanCodes) {
+        if (node == null) {
+            return;
+        }
+        if (node.character != 0) {
+            huffmanCodes.put(node.character, code);
+        }
+        buildHuffmanCodesRecursive(node.left, code + "0", huffmanCodes);
+        buildHuffmanCodesRecursive(node.right, code + "1", huffmanCodes);
+    }
+
+    public static String encode(String input, Map<Character, String> huffmanCodes) {
+        StringBuilder encodedString = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            encodedString.append(huffmanCodes.get(c));
+        }
+        return encodedString.toString();
+    }
+
+    public static String decode(String encodedString, HuffmanNode root) {
+        StringBuilder decodedString = new StringBuilder();
+        HuffmanNode current = root;
+        for (char bit : encodedString.toCharArray()) {
+            if (bit == '0') {
+                current = current.left;
+            } else if (bit == '1') {
+                current = current.right;
+            }
+            if (current.character != 0) {
+                decodedString.append(current.character);
+                current = root;
+            }
+        }
+        return decodedString.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "applebee";
+        System.out.println("beginning string: " + input);
+
+        // Build Huffman tree and get the root node
+        HuffmanNode root = buildHuffmanTree(input);
+        
+        
+
+        // Generate Huffman codes
+        Map<Character, String> huffmanCodes = buildHuffmanCodes(root);
+
+        // Encode the input string
+        String encodedString = encode(input, huffmanCodes);
+
+        System.out.println("Encoded: " + encodedString);
+
+        // Decode the encoded string
+        String decodedString = decode(encodedString, root);
+        System.out.println("Decoded: " + decodedString);
+    }
+
+}
