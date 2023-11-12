@@ -3,9 +3,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class nodeCreatorTest {
-
-
-
     @Test
     void setLeftChild() {
         nodeCreator test = new nodeCreator((23+33));
@@ -13,12 +10,10 @@ class nodeCreatorTest {
         test.getNode().setLeftChild(new nodeCreator.HuffmanNode(2,'c'));
         nodeCreator.HuffmanNode left = test.getNode().getLeftChild();
         assertEquals(left,test.getNode().getLeftChild());
-
     }
 
     @Test
     void setRightChild() {
-
         nodeCreator test = new nodeCreator(5);
         assertEquals(test.getNode().getFrequency(),5);
         test.getNode().setRightChild(new nodeCreator.HuffmanNode(2,'c'));
