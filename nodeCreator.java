@@ -19,6 +19,37 @@ public class nodeCreator {
             this.right = null;
         }
 
+
+        public void setLeftChild(HuffmanNode leftChild) {
+            this.left = leftChild;
+        }
+
+        public HuffmanNode getLeftChild() {
+            return this.left;
+        }
+
+        public HuffmanNode getRightChild() {
+            return this.right;
+        }
+
+        public void setRightChild(HuffmanNode rightChild) {
+            this.right = rightChild;
+        }
+
+
+
+        public int getFrequency() {
+            return this.frequency;
+        }
+
+        public int getLetter() {
+            return this.letter;
+        }
+
+        public void setFrequency(int newFrequency) {
+            this.frequency = newFrequency;
+        }
+
     }
 
     public HuffmanNode node;
@@ -30,36 +61,8 @@ public class nodeCreator {
         this.node = new HuffmanNode(frequency,letter);
     }
 
-    public void setLeftChild(HuffmanNode leftChild) {
-        this.node.left = leftChild;
-    }
-
-    public HuffmanNode getLeftChild() {
-        return this.node.left;
-    }
-
-    public HuffmanNode getRightChild() {
-        return this.node.right;
-    }
-
-    public void setRightChild(HuffmanNode rightChild) {
-        this.node.right = rightChild;
-    }
-
-    public HuffmanNode getRootNode() {
+    public HuffmanNode getNode() {
         return this.node;
-    }
-
-    public int getFrequency() {
-        return this.node.frequency;
-    }
-
-    public int getLetter() {
-        return this.node.letter;
-    }
-
-    public void setFrequency(int newF) {
-        this.node.frequency = newF;
     }
 
     public void print(HuffmanNode node) {
