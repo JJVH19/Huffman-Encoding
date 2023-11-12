@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class nodeCreatorTest {
+class NodeCreatorTest {
     @Test
     void setLeftChild() {
         nodeCreator test = new nodeCreator((23+33));

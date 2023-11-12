@@ -152,10 +152,5 @@ class CustomPriorityQueueTest {
         root.getNode().setRightChild(finalTest2.getNode());
         assertEquals(root.getNode().getRightChild().getFrequency(),85);
         assertEquals(root.getNode().getRightChild().getLetter(),'s');
-
-//        testQueue.addandMove(root);
-//        assertEquals(testQueue.size(),1);
-//        assertFalse(testQueue.isEmpty());
-
     }
 }
