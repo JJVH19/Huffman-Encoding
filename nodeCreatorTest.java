@@ -8,7 +8,6 @@ class nodeCreatorTest {
 
     @Test
     void setLeftChild() {
-
         nodeCreator test = new nodeCreator((23+33));
         assertEquals(test.getNode().getFrequency(),(23+33));
         test.getNode().setLeftChild(new nodeCreator.HuffmanNode(2,'c'));
@@ -19,6 +18,12 @@ class nodeCreatorTest {
 
     @Test
     void setRightChild() {
+
+        nodeCreator test = new nodeCreator(5);
+        assertEquals(test.getNode().getFrequency(),5);
+        test.getNode().setRightChild(new nodeCreator.HuffmanNode(2,'c'));
+        nodeCreator.HuffmanNode left = test.getNode().getRightChild();
+        assertEquals(left,test.getNode().getRightChild());
     }
 
     @Test
