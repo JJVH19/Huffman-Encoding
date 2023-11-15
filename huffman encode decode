@@ -25,12 +25,18 @@ public class HuffmanEncodeDecode {
 	    }
 
 	    public static HuffmanNode buildHuffmanTree(String input, CustomMap<Character, Integer> frequencyMap) {
+	        File file = new File("InfoFromConsole.txt");
+            Scanner reading = new Scanner(file);
+            String input;  // will need to change method signature a bit
+            while (reading.hasNext()) {
+                input = reading.next();
+
 	        // Calculate character frequencies and print them
 	        System.out.println("Character Frequencies:");
 	        for (char c : input.toCharArray()) {
 	            int frequency = frequencyMap.get(c);
 	            frequencyMap.put(c, frequency + 1);
-	        }
+	        }}
 	        for (char character : frequencyMap.keys()) {
 	            System.out.println(character + ": " + frequencyMap.get(character));
 	        }

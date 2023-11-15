@@ -75,6 +75,8 @@ public class DataInput {
             }
             writer.close();
             reading.close();
+            System.out.println("Your input has been captured, thank you!\n" +
+                    "Your Huffman Encoding will be completed shortly.\n");
         }
         catch (IOException exc) {
             System.out.println("An error occured");
@@ -82,7 +84,5 @@ public class DataInput {
             toDelete.delete();
             reading.close();
         }
-        System.out.println("Your input has been captured, thank you!\n" +
-                "Your Huffman Encoding will be completed shortly.\n");
     }
 }
