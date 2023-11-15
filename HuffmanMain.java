@@ -3,6 +3,7 @@ public class HuffmanMain {
 
     public static void main(String[] args){
 
+
         nodeCreator.HuffmanNode[] priorityQueueSimulation = new nodeCreator.HuffmanNode[6];
         int priorityQueueSimulationIndex = 0;
         //frequency data structure here
