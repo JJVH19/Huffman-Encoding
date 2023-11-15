@@ -60,7 +60,6 @@ public class DataInput {
 
     private static void isNotFile() {
         System.out.println("Begin entering input. Type 'QUIT' when you are finished");
-        boolean reWriting = false;
         Scanner reading = new Scanner(System.in);
         String info = reading.nextLine();
         if (info.equals("QUIT")) {
@@ -71,7 +70,6 @@ public class DataInput {
         try {
             FileWriter writer = new FileWriter(fromConsole);
             while (!info.equals("QUIT")) {
-                reWriting = true;
                 writer.write(info + System.lineSeparator());
                 info = reading.nextLine();
             }
