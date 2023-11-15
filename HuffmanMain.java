@@ -1,26 +1,48 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
 public class HuffmanMain {
-    static nodeCreator root;
 
     public static void main(String[] args){
 
-        nodeCreator.HuffmanNode[] priorityQueueSimulation = new nodeCreator.HuffmanNode[6];
-        int priorityQueueSimulationIndex = 0;
-        //frequency data structure here
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the phrase to encode:\n");
+        String userInput = scanner.nextLine();
 
-        //Simulation to add things to the tree
-        int[] frequencySimulator = new int[]{17,28,37,49,59,68};
-        char asciiCharacter = 97;
-        for(int i = 0; i < frequencySimulator.length; i+=2){
-            root = new nodeCreator((frequencySimulator[i]+frequencySimulator[i+1]));
-            root.setLeftChild((new nodeCreator.HuffmanNode(frequencySimulator[i],asciiCharacter++)));
-            root.setRightChild((new nodeCreator.HuffmanNode(frequencySimulator[i+1],asciiCharacter++)));
+        CustomMap<Character, Integer> hashTable = new CustomMap<>(256);
+        CustomPriorityQueue<nodeCreator> huffmanTreeQueue = new CustomPriorityQueue<>(Comparator.comparingInt(o -> o.getNode().getFrequency()));
 
 
-            //Simulation of pushing into priority queue
-            priorityQueueSimulation[priorityQueueSimulationIndex] = root.getRootNode();
-            root.print(priorityQueueSimulation[priorityQueueSimulationIndex]);
-            priorityQueueSimulationIndex++;
+        for(int character = 0; character < userInput.toCharArray().length; character++){
+            System.out.println(userInput.toCharArray()[character]);
+            char currentChar = userInput.toCharArray()[character];
+            if(hashTable.get(userInput.toCharArray()[character]) != null){
+                hashTable.put(currentChar,hashTable.get(currentChar)+1);
+            } else{
+                hashTable.put(currentChar,1);
+            }
         }
+        //userInput.toString().toCharArray();
+
+        List<Character> frequencies = hashTable.keys();
+
+        for (Character frequency : frequencies) {
+            nodeCreator newNode = new nodeCreator(hashTable.get(frequency), frequency);
+            huffmanTreeQueue.addandMove(newNode);
+        }
+
+        while(huffmanTreeQueue.size() != 1){
+            nodeCreator node1 = huffmanTreeQueue.poll();
+            nodeCreator node2 = huffmanTreeQueue.poll();
+            nodeCreator newRoot = new nodeCreator(node1.getNode().getFrequency() + node2.getNode().getFrequency());
+            newRoot.getNode().setLeftChild(node1.getNode());
+            newRoot.getNode().setRightChild(node2.getNode());
+            huffmanTreeQueue.addandMove(newRoot);
+        }
+
+        System.out.println("Done");
         //Priority queue insertion here
 
     }
