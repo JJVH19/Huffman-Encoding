@@ -6,6 +6,7 @@ public class nodeCreator {
         private HuffmanNode left;
         private HuffmanNode right;
 
+        //This constructor will make a leaf node holding the character and frequency
         HuffmanNode(int frequency, char letter) {
             this.frequency = frequency;
             this.letter = letter;
@@ -13,12 +14,12 @@ public class nodeCreator {
             this.right = null;
         }
 
+        //This constructor will make a node holding only the frequency to connect them with the leaf nodes
         HuffmanNode(int frequency) {
             this.frequency = frequency;
             this.left = null;
             this.right = null;
         }
-
 
         public void setLeftChild(HuffmanNode leftChild) {
             this.left = leftChild;
@@ -36,18 +37,12 @@ public class nodeCreator {
             this.right = rightChild;
         }
 
-
-
         public int getFrequency() {
             return this.frequency;
         }
 
         public int getLetter() {
             return this.letter;
-        }
-
-        public void setFrequency(int newFrequency) {
-            this.frequency = newFrequency;
         }
 
     }
@@ -63,11 +58,6 @@ public class nodeCreator {
 
     public HuffmanNode getNode() {
         return this.node;
-    }
-
-    public void print(HuffmanNode node) {
-        System.out.println("Root Frequency: " + node.frequency + "\n--Left Child Frequency: " + node.left.frequency + "->" + node.left.letter +
-                "\n--Right Child Frequency: " + node.right.frequency + "->" + node.right.letter + "\n");
     }
 
 }

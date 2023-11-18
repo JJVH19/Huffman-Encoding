@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomMapTest {
 
     @Test
-    void put() {
+    void testHashtable() {
         CustomMap<Character, Integer> test = new CustomMap<>(256);
         assertEquals(test.size(),0);
         test.put('c',1);

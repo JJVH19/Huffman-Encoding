@@ -20,17 +20,17 @@ public class DataInput {
         Scanner input = new Scanner(System.in);
         String isFile = input.next();
         //while (true) {
-            if (isFile.equals("Y") || isFile.equals("yes") || isFile.equals("Yes") || isFile.equals("YES")) {
-                // go into separate function here
-                int retval = isFile(input);
-                if (retval == 1) {
-                    isNotFile();
-                }
-            }
-            else {
-                // enter separate function here
+        if (isFile.equals("Y") || isFile.equals("yes") || isFile.equals("Yes") || isFile.equals("YES")) {
+            // go into separate function here
+            int retval = isFile(input);
+            if (retval == 1) {
                 isNotFile();
             }
+        }
+        else {
+            // enter separate function here
+            isNotFile();
+        }
         //}
         input.close();
     }
