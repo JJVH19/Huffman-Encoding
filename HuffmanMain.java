@@ -3,14 +3,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HuffmanMain {
+
+    private static String path;
+
     public static void main(String[] args){
         CustomMap<Character, Integer> hashTable = new CustomMap<>(256);
         CustomPriorityQueue<nodeCreator> huffmanTreeQueue = new CustomPriorityQueue<>(Comparator.comparingInt(o -> o.getNode().getFrequency()));
+        CustomMap<Character, String> codes = new CustomMap<>(256);
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the phrase to encode:\n");
         String userInput = scanner.nextLine();
 
+        // Put frequencies in the hashtable
         for(int character = 0; character < userInput.toCharArray().length; character++){
             char currentChar = userInput.toCharArray()[character];
             if(hashTable.get(userInput.toCharArray()[character]) != null){
@@ -22,6 +27,7 @@ public class HuffmanMain {
 
         List<Character> frequencies = hashTable.keys();
 
+        // Build tree of frequencies
         for (Character frequency : frequencies) {
             nodeCreator newNode = new nodeCreator(hashTable.get(frequency), frequency);
             huffmanTreeQueue.addandMove(newNode);
@@ -35,29 +41,51 @@ public class HuffmanMain {
             newRoot.getNode().setRightChild(node2.getNode());
             huffmanTreeQueue.addandMove(newRoot);
         }
-        nodeCreator huffmanTree = huffmanTreeQueue.poll();
 
-//        String encoded = "";
-//        for(int character = 0; character < userInput.toCharArray().length; character++){
-//            char currentChar = userInput.toCharArray()[character];
-//            encoded+=encode(huffmanTree.getNode(),currentChar);
-//        }
-//        System.out.println(encoded);
-        //Priority queue insertion here
+        nodeCreator huffmanTree = huffmanTreeQueue.poll();
+        traverse(huffmanTree.getNode(), codes);
+
+        String encoded = getEncodedString(userInput, codes);
+
+        System.out.println("\nCharacter\tHuffman Code");
+        String[] huffmanDetails = encoded.split("null");
+        int userInputIndex = 0;
+        for(int index = 1; index < huffmanDetails.length; index++){
+            System.out.println("\t" + userInput.toCharArray()[userInputIndex] + "\t\t\t" + huffmanDetails[index]);
+            userInputIndex++;
+        }
+        System.out.println("\nEncoded user input:");
+        encoded = encoded.replace("null","");
+        System.out.println(encoded);
 
     }
 
-//    public static String encode(nodeCreator.HuffmanNode node, char currentChar){
-//        if(node.getLeftChild() == null && node.getRightChild() == null && node.getLetter() == currentChar){
-//            return "";
-//        }
-//        if(node.getLeftChild() != null){
-//            return "0" + encode(node.getLeftChild(),currentChar);
-//        }
-//        if(node.getRightChild() != null){
-//            return "1" + encode(node.getRightChild(),currentChar);
-//        }
-//
-//        return null;
-//    }
+    public static void traverse(nodeCreator.HuffmanNode node, CustomMap<Character, String> codes) {
+        if (node == null) {
+            return;
+        }
+        if (node.getLeftChild() == null && node.getRightChild() == null) {  // leaf node, corresponds to a letter
+            codes.put((char) node.getLetter(), path);
+            path = path.substring(0, path.length()-1);  // remove last char in string
+            return;
+        }
+        if (node.getLeftChild() != null) {
+            path += "0";
+            traverse(node.getLeftChild(), codes);
+        }
+        if (node.getRightChild() != null) {
+            path += "1";
+            traverse(node.getRightChild(), codes);
+        }
+    }
+
+    private static String getEncodedString(String input, CustomMap<Character, String> codes) {
+        String encoded = "";
+        char[] symbols = input.toCharArray();
+        for (char symbol : symbols) {
+            encoded += codes.get(symbol);
+        }
+        return encoded;
+    }
+
 }
