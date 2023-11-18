@@ -37,7 +37,7 @@ public class HuffmanMain {
             huffmanTreeQueue.addandMove(newNode);
         }
 
-        //Populate huffman tree with current
+        //Populate huffman tree with current created nodes
         while(huffmanTreeQueue.size() != 1){
             nodeCreator node1 = huffmanTreeQueue.poll();
             nodeCreator node2 = huffmanTreeQueue.poll();
