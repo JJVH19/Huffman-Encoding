@@ -7,11 +7,15 @@ public class HuffmanMain {
     private static String path;
 
     public static void main(String[] args){
+        //Creating hashtable
         CustomMap<Character, Integer> hashTable = new CustomMap<>(256);
-        CustomPriorityQueue<nodeCreator> huffmanTreeQueue = new CustomPriorityQueue<>(Comparator.comparingInt(o -> o.getNode().getFrequency()));
         CustomMap<Character, String> codes = new CustomMap<>(256);
-        Scanner scanner = new Scanner(System.in);
 
+        //Creating priority queue
+        CustomPriorityQueue<nodeCreator> huffmanTreeQueue = new CustomPriorityQueue<>(Comparator.comparingInt(o -> o.getNode().getFrequency()));
+
+        //Accept user input to decode
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the phrase to encode:\n");
         String userInput = scanner.nextLine();
 
@@ -27,12 +31,13 @@ public class HuffmanMain {
 
         List<Character> frequencies = hashTable.keys();
 
-        // Build tree of frequencies
+        // Build nodes of frequencies
         for (Character frequency : frequencies) {
             nodeCreator newNode = new nodeCreator(hashTable.get(frequency), frequency);
             huffmanTreeQueue.addandMove(newNode);
         }
 
+        //Populate huffman tree with current
         while(huffmanTreeQueue.size() != 1){
             nodeCreator node1 = huffmanTreeQueue.poll();
             nodeCreator node2 = huffmanTreeQueue.poll();
@@ -42,24 +47,31 @@ public class HuffmanMain {
             huffmanTreeQueue.addandMove(newRoot);
         }
 
+        //Traverse tree to get huffman codes
         nodeCreator huffmanTree = huffmanTreeQueue.poll();
         traverse(huffmanTree.getNode(), codes);
 
         String encoded = getEncodedString(userInput, codes);
 
+        //Presentation display for user interaction
         System.out.println("\nCharacter\tHuffman Code");
+
+        //Creates list of huffman codes to iterate and print through
         String[] huffmanDetails = encoded.split("null");
         int userInputIndex = 0;
         for(int index = 1; index < huffmanDetails.length; index++){
             System.out.println("\t" + userInput.toCharArray()[userInputIndex] + "\t\t\t" + huffmanDetails[index]);
             userInputIndex++;
         }
+
+        //Display final results
         System.out.println("\nEncoded user input:");
         encoded = encoded.replace("null","");
         System.out.println(encoded);
 
     }
 
+    //Traverses the tree to find the huffman codes for each character
     public static void traverse(nodeCreator.HuffmanNode node, CustomMap<Character, String> codes) {
         if (node == null) {
             return;
@@ -79,6 +91,7 @@ public class HuffmanMain {
         }
     }
 
+    //Concatenates the string 'encoded' with huffman codes
     private static String getEncodedString(String input, CustomMap<Character, String> codes) {
         String encoded = "";
         char[] symbols = input.toCharArray();
