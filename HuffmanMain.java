@@ -19,7 +19,7 @@ public class HuffmanMain {
         System.out.println("Enter the phrase to encode:\n");
         String userInput = scanner.nextLine();
 
-        // Put frequencies in the hashtable
+        // Populate hashtable with frequencies
         for(int character = 0; character < userInput.toCharArray().length; character++){
             char currentChar = userInput.toCharArray()[character];
             if(hashTable.get(userInput.toCharArray()[character]) != null){
@@ -69,6 +69,7 @@ public class HuffmanMain {
         encoded = encoded.replace("null","");
         System.out.println(encoded);
 
+        String decoded = "";
     }
 
     //Traverses the tree to find the huffman codes for each character
@@ -99,6 +100,14 @@ public class HuffmanMain {
             encoded += codes.get(symbol);
         }
         return encoded;
+    }
+
+    private static String decode(String toDecode, String decoded, nodeCreator.HuffmanNode node) {
+        if (node.getLeftChild() == null && node.getLeftChild() == null) {
+            decoded = decoded + (char) node.getLetter();
+            return decoded;
+        }
+        return "";
     }
 
 }
