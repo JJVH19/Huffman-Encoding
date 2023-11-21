@@ -55,12 +55,6 @@ public class HuffmanMain {
         System.out.println("\nCharacter\tHuffman Code");
 
         //Creates list of huffman codes to iterate and print through
-//        String[] huffmanDetails = encoded.split("null");
-//        int userInputIndex = 0;
-//        for(int index = 1; index < huffmanDetails.length; index++){
-//            System.out.println("\t" + userInput.toCharArray()[userInputIndex] + "\t\t\t" + huffmanDetails[index]);
-//            userInputIndex++;
-//        }
         for (char c : userInput.toCharArray()) {
             System.out.println("\t" + c + "\t\t\t" + codes.get(c));
         }
