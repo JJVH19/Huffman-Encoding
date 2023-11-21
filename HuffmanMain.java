@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class HuffmanMain {
 
-    private static String path;
-
     public static void main(String[] args){
         //Creating hashtable
         CustomMap<Character, Integer> hashTable = new CustomMap<>(256);
@@ -49,7 +47,7 @@ public class HuffmanMain {
 
         //Traverse tree to get huffman codes
         nodeCreator huffmanTree = huffmanTreeQueue.poll();
-        traverse(huffmanTree.getNode(), codes);
+        traverse(huffmanTree.getNode(), codes, "");
 
         String encoded = getEncodedString(userInput, codes);
 
@@ -57,11 +55,14 @@ public class HuffmanMain {
         System.out.println("\nCharacter\tHuffman Code");
 
         //Creates list of huffman codes to iterate and print through
-        String[] huffmanDetails = encoded.split("null");
-        int userInputIndex = 0;
-        for(int index = 1; index < huffmanDetails.length; index++){
-            System.out.println("\t" + userInput.toCharArray()[userInputIndex] + "\t\t\t" + huffmanDetails[index]);
-            userInputIndex++;
+//        String[] huffmanDetails = encoded.split("null");
+//        int userInputIndex = 0;
+//        for(int index = 1; index < huffmanDetails.length; index++){
+//            System.out.println("\t" + userInput.toCharArray()[userInputIndex] + "\t\t\t" + huffmanDetails[index]);
+//            userInputIndex++;
+//        }
+        for (char c : userInput.toCharArray()) {
+            System.out.println("\t" + c + "\t\t\t" + codes.get(c));
         }
 
         //Display final results
@@ -69,26 +70,24 @@ public class HuffmanMain {
         encoded = encoded.replace("null","");
         System.out.println(encoded);
 
-        String decoded = "";
+        char[] toDecode = encoded.toCharArray();
+        decode(toDecode, huffmanTree.getNode());
     }
 
     //Traverses the tree to find the huffman codes for each character
-    public static void traverse(nodeCreator.HuffmanNode node, CustomMap<Character, String> codes) {
+    public static void traverse(nodeCreator.HuffmanNode node, CustomMap<Character, String> codes, String s) {
         if (node == null) {
             return;
         }
-        if (node.getLeftChild() == null && node.getRightChild() == null) {  // leaf node, corresponds to a letter
-            codes.put((char) node.getLetter(), path);
-            path = path.substring(0, path.length()-1);  // remove last char in string
+        if (node.getLeftChild() == null && node.getRightChild() == null) {
+            codes.put((char) node.getLetter(), s);
             return;
         }
         if (node.getLeftChild() != null) {
-            path += "0";
-            traverse(node.getLeftChild(), codes);
+            traverse(node.getLeftChild(), codes, s + "0");
         }
         if (node.getRightChild() != null) {
-            path += "1";
-            traverse(node.getRightChild(), codes);
+            traverse(node.getRightChild(), codes, s + "1");
         }
     }
 
@@ -102,12 +101,23 @@ public class HuffmanMain {
         return encoded;
     }
 
-    private static String decode(String toDecode, String decoded, nodeCreator.HuffmanNode node) {
-        if (node.getLeftChild() == null && node.getLeftChild() == null) {
-            decoded = decoded + (char) node.getLetter();
-            return decoded;
+    private static void decode(char[] toDecode, nodeCreator.HuffmanNode node) {
+        nodeCreator.HuffmanNode temp = node;
+        int j = 0;
+        System.out.println("\nOriginal input: ");
+        while (j < toDecode.length) {
+            if (toDecode[j] == '0') {
+                temp = temp.getLeftChild();
+            }
+            if (toDecode[j] == '1') {
+                temp = temp.getRightChild();
+            }
+            if (temp.getRightChild() == null & temp.getLeftChild() == null) {
+                System.out.print((char) temp.getLetter());
+                temp = node;
+            }
+            j++;
         }
-        return "";
     }
 
 }
